@@ -108,6 +108,25 @@ if (isSuccess) {
         return h.response(response).code(200);
     };
 
+    const getBookByIdHandler = (request, h) => {
+        const {id} = request.params;
+        const book = books.filter((n) => n.id === id)[0];
+        if (book !== undefined) {
+          return {
+            status: 'success',
+            data: {
+              book,
+            },
+          };
+        }
+        const response = h.response({
+          status: 'fail',
+          message: 'Buku tidak ditemukan',
+        });
+        response.code(404);
+        return response;
+      };
+
 
     const editBookByIdHandler = (request, h) => {
         const {id} = request.params;
@@ -186,9 +205,9 @@ if (isSuccess) {
         return response;
     };
     module.exports = {
-        getAllBooksHandler,
-        getBookByIdHandler,
         addBookHandler,
+        getBookByIdHandler,
+        getAllBooksHandler,
         editBookByIdHandler,
         deleteBookByIdHandler,
     };
